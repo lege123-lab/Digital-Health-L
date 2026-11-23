@@ -4,834 +4,489 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b5d57">
+<meta name="theme-color" content="#123b5d">
 <title>Digital Health Legesse</title>
-
 <style>
 :root{
---primary:#087f75;
---dark:#123047;
---bg:#f3f6f8;
---white:#fff;
---text:#172b3a;
---muted:#647786;
---border:#dce5e9;
+ --navy:#123b5d;--blue:#1769aa;--teal:#078477;--bg:#f3f6fa;
+ --white:#fff;--text:#243447;--muted:#718096;--border:#dfe6ee;
+ --red:#c0392b;--green:#16834a;--gold:#b7791f;
 }
 *{box-sizing:border-box}
-body{
-margin:0;
-font-family:Arial,"Noto Sans Ethiopic",sans-serif;
-background:var(--bg);
-color:var(--text);
-}
+body{margin:0;font-family:Arial,"Noto Sans Ethiopic",sans-serif;background:var(--bg);color:var(--text)}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
+.topbar{background:var(--navy);color:white;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5}
+.brand{font-size:18px;font-weight:800}
+.brand small{display:block;font-size:11px;font-weight:400;opacity:.8;margin-top:4px}
+.top-actions{display:flex;gap:8px;align-items:center}
+.top-actions button{background:#ffffff20;color:white;border:1px solid #ffffff55;padding:8px 11px;border-radius:8px}
+.app{display:flex;min-height:calc(100vh - 62px)}
+.sidebar{width:245px;background:#fff;border-right:1px solid var(--border);padding:14px;flex-shrink:0}
+.nav-title{font-size:11px;color:var(--muted);font-weight:bold;margin:15px 8px 7px}
+.nav-btn{display:flex;width:100%;text-align:left;align-items:center;gap:10px;border:0;background:transparent;padding:11px 10px;border-radius:9px;color:#405268;margin:2px 0}
+.nav-btn:hover,.nav-btn.active{background:#e9f2fa;color:var(--blue);font-weight:bold}
+.main{padding:22px;width:100%;max-width:1500px;margin:auto;min-width:0}
+.page-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+h1{font-size:23px;margin:0 0 5px}
+.subtitle{font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:13px;margin-bottom:18px}
+.stat,.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:16px}
+.stat .number{font-size:27px;font-weight:800;color:var(--navy);margin-top:8px}
+.stat .label{font-size:13px;color:var(--muted)}
+.panel{margin-bottom:16px}
+.panel h3{margin:0 0 14px;font-size:16px}
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.quick{border:1px solid var(--border);border-radius:10px;padding:13px;background:#fff;text-align:left;color:var(--text)}
+.quick:hover{border-color:var(--blue);background:#f5faff}
+.quick b{display:block;margin-bottom:5px}
+.quick small{color:var(--muted)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-size:13px;font-weight:700;color:#46566a}
+input,select,textarea{width:100%;border:1px solid #ccd6e0;border-radius:8px;padding:11px;background:#fff;color:var(--text);min-width:0}
+textarea{min-height:75px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid #b8d8f5;border-color:var(--blue)}
+.btn{border:0;border-radius:8px;padding:11px 16px;background:var(--blue);color:white;font-weight:bold}
+.btn.secondary{background:#e9eef4;color:#33475b}
+.btn.green{background:var(--teal)}
+.btn.red{background:var(--red)}
+.btn.small{padding:7px 10px;font-size:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:600px;font-size:13px}
+th,td{padding:11px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:#f5f8fb;color:#526174}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.notice{padding:12px;border-radius:9px;background:#fff8e6;border:1px solid #f2dfaa;color:#765515;font-size:13px;margin-bottom:14px}
+.success{background:#eaf7ef;color:#17643a;border:1px solid #bce4ca}
 .hidden{display:none!important}
-.login{
-min-height:100vh;
-display:grid;
-place-items:center;
-padding:20px;
-background:linear-gradient(135deg,#123047,#087f75);
-}
-.login-card{
-background:white;
-width:min(430px,100%);
-padding:28px;
-border-radius:16px;
-}
-.login-card h1{font-size:22px}
-.field{margin:12px 0}
-.field label{
-display:block;
-font-size:13px;
-font-weight:bold;
-margin-bottom:6px;
-}
-.field input,.field select,.field textarea{
-width:100%;
-padding:11px;
-border:1px solid var(--border);
-border-radius:8px;
-}
-.btn{
-border:0;
-border-radius:8px;
-padding:10px 14px;
-background:var(--primary);
-color:white;
-font-weight:bold;
-}
-.full{width:100%;margin-top:10px}
-.secondary{background:#e7f1f2;color:#087f75}
-.topbar{
-height:62px;
-background:var(--dark);
-color:white;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 18px;
-position:sticky;
-top:0;
-z-index:5;
-}
-.layout{
-display:grid;
-grid-template-columns:245px 1fr;
-min-height:calc(100vh - 62px);
-}
-.sidebar{
-background:white;
-border-right:1px solid var(--border);
-padding:12px;
-overflow:auto;
-}
-.nav-btn{
-width:100%;
-padding:10px;
-margin:2px 0;
-border:0;
-border-radius:8px;
-background:transparent;
-text-align:left;
-color:#344b5a;
-}
-.nav-btn:hover,.nav-btn.active{
-background:#e7f4f2;
-color:#087f75;
-font-weight:bold;
-}
-.nav-title{
-font-size:11px;
-font-weight:bold;
-color:#82929d;
-padding:14px 8px 5px;
-}
-.main{padding:20px;min-width:0}
-.page-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin-bottom:18px;
-}
-.page-head h2{margin:0 0 5px}
-.muted{font-size:12px;color:var(--muted)}
-.grid{
-display:grid;
-grid-template-columns:repeat(4,minmax(0,1fr));
-gap:12px;
-}
-.card,.panel,.module{
-background:white;
-border:1px solid var(--border);
-border-radius:12px;
-padding:15px;
-margin-bottom:14px;
-}
-.stat-number{font-size:27px;font-weight:bold;margin:8px 0}
-.module-grid{
-display:grid;
-grid-template-columns:repeat(3,minmax(0,1fr));
-gap:12px;
-}
-.module{
-cursor:pointer;
-text-align:left;
-color:var(--text);
-}
-.module:hover{border-color:var(--primary)}
-.module h3{font-size:14px}
-.module p{font-size:11px;color:var(--muted)}
-.toolbar{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-bottom:12px;
-}
-.toolbar input,.toolbar select{
-padding:10px;
-border:1px solid var(--border);
-border-radius:8px;
-}
-table{
-width:100%;
-border-collapse:collapse;
-background:white;
-min-width:600px;
-}
-th,td{
-padding:10px;
-border-bottom:1px solid #edf1f3;
-text-align:left;
-font-size:12px;
-}
-th{background:#f7fafb}
-.table-wrap{overflow:auto}
-.form-grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:10px;
-}
-.form-actions{
-display:flex;
-justify-content:flex-end;
-gap:8px;
-margin-top:12px;
-}
-.notice{
-background:#fff8e8;
-border:1px solid #f0dfb4;
-padding:12px;
-border-radius:8px;
-font-size:12px;
-line-height:1.5;
-margin-top:15px;
-}
-.empty{text-align:center;padding:25px;color:var(--muted)}
-@media(max-width:850px){
-.layout{grid-template-columns:1fr}
-.sidebar{
-display:flex;
-overflow-x:auto;
-gap:5px;
-}
-.nav-title{display:none}
-.nav-btn{white-space:nowrap;width:auto}
-.grid{grid-template-columns:repeat(2,1fr)}
-.module-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:550px){
-.main{padding:12px}
-.form-grid{grid-template-columns:1fr}
-.module-grid{grid-template-columns:repeat(2,1fr)}
-.grid{gap:8px}
+.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e9f2fa;color:#1769aa;font-size:11px}
+.search{max-width:320px}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(140deg,#123b5d,#1769aa)}
+.login-card{background:#fff;padding:28px;border-radius:16px;width:min(420px,100%);box-shadow:0 12px 40px #001c3b40}
+.login-card h1{color:var(--navy);font-size:23px}
+.login-card .field{margin:15px 0}
+.login-card .btn{width:100%}
+.login-help{font-size:12px;color:var(--muted);line-height:1.6;margin-top:15px}
+@media(max-width:760px){
+ .app{display:block}.sidebar{width:100%;display:flex;overflow-x:auto;padding:8px;border-right:0;border-bottom:1px solid var(--border);gap:5px}
+ .nav-title{display:none}.nav-btn{white-space:nowrap;width:auto;flex-shrink:0;padding:9px}
+ .main{padding:14px}.topbar{padding:12px}.brand{font-size:15px}
+ .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
+ h1{font-size:20px}.stat{padding:13px}
 }
 </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen" class="login">
-<form class="login-card" id="loginForm">
-<h1>✚ DIGITAL HEALTH LEGESSE</h1>
-<p class="muted">Integrated Health Facility Management System</p>
-
-<div class="field">
-<label>Username</label>
-<input id="username" value="admin" required>
+<div id="loginScreen" class="login-screen">
+ <div class="login-card">
+  <h1>🏥 DIGITAL HEALTH LEGESSE</h1>
+  <p class="subtitle">Health Facility Management System</p>
+  <div class="notice">ይህ የሙከራ ስሪት ነው። እውነተኛ የታካሚ መረጃ አትጠቀም።</div>
+  <div class="field"><label>Username</label><input id="username" autocomplete="username" placeholder="admin"></div>
+  <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Password"></div>
+  <button class="btn" onclick="login()">Login / ግባ</button>
+  <div id="loginError" style="color:#c0392b;margin-top:10px;font-size:13px"></div>
+  <div class="login-help">Demo username: <b>admin</b><br>Demo password: <b>DHL2026</b><br>ይህ የሙከራ መግቢያ ነው፤ የደህንነት መከላከያ አይደለም።</div>
+ </div>
 </div>
 
-<div class="field">
-<label>Password</label>
-<input id="password" type="password" required>
-</div>
-
-<div class="field">
-<label>User Role</label>
-<select id="role">
-<option>Administrator</option>
-<option>Health Officer</option>
-<option>Laboratory</option>
-<option>Pharmacy</option>
-<option>Nurse / Midwife</option>
-<option>Data Clerk</option>
-</select>
-</div>
-
-<button class="btn full">Sign in / ግባ</button>
-
-<div class="notice">
-Demo login only:<br>
-Username: admin<br>
-Password: DHL2026<br>
-Do not enter real patient information in this demonstration version.
-</div>
-</form>
-</div>
-
-<!-- APPLICATION -->
-<div id="app" class="hidden">
-
-<header class="topbar">
-<strong>✚ DIGITAL HEALTH LEGESSE</strong>
-<div>
-<span id="userLabel">Administrator</span>
-<button class="btn secondary" onclick="logout()">Sign out</button>
-</div>
-</header>
-
-<div class="layout">
-
-<aside class="sidebar">
-
-<div class="nav-title">MAIN</div>
-<button class="nav-btn active" onclick="openPage('dashboard')">▦ Dashboard</button>
-<button class="nav-btn" onclick="openPage('patients')">👥 Patient Management</button>
-<button class="nav-btn" onclick="openPage('followups')">◷ Follow-up Center</button>
-
-<div class="nav-title">HEALTH SERVICES</div>
-<div id="serviceNav"></div>
-
-<div class="nav-title">MANAGEMENT</div>
-<button class="nav-btn" onclick="openPage('reports')">▤ HMIS & Reports</button>
-<button class="nav-btn" onclick="openPage('staff')">♙ Staff Management</button>
-<button class="nav-btn" onclick="openPage('settings')">⚙ Settings & Backup</button>
-
-</aside>
-
-<main class="main" id="main"></main>
-
-</div>
+<div id="appScreen" class="hidden">
+ <header class="topbar">
+  <div class="brand">🏥 DIGITAL HEALTH LEGESSE<small>Health Facility Management System</small></div>
+  <div class="top-actions"><span id="userLabel">Administrator</span><button onclick="logout()">Logout</button></div>
+ </header>
+ <div class="app">
+  <aside class="sidebar" id="sidebar">
+   <div class="nav-title">MAIN MENU</div>
+   <button class="nav-btn active" data-page="dashboard">🏠 Dashboard</button>
+   <button class="nav-btn" data-page="patients">👥 Patient Management</button>
+   <div class="nav-title">CLINICAL SERVICES</div>
+   <button class="nav-btn" data-page="opd">🩺 OPD / Emergency</button>
+   <button class="nav-btn" data-page="laboratory">🔬 Laboratory</button>
+   <button class="nav-btn" data-page="pharmacy">💊 Pharmacy</button>
+   <button class="nav-btn" data-page="anc">🤰 ANC</button>
+   <button class="nav-btn" data-page="delivery">👶 Delivery</button>
+   <button class="nav-btn" data-page="pnc">🩷 PNC / Postpartum</button>
+   <button class="nav-btn" data-page="immunization">💉 Immunization / EPI</button>
+   <button class="nav-btn" data-page="family">👨‍👩‍👧 Family Planning</button>
+   <button class="nav-btn" data-page="nutrition">🥗 Nutrition / OTP</button>
+   <button class="nav-btn" data-page="tb">🫁 TB Services</button>
+   <button class="nav-btn" data-page="surveillance">📊 Disease Surveillance</button>
+   <button class="nav-btn" data-page="hygiene">🚰 Hygiene & Sanitation</button>
+   <button class="nav-btn" data-page="growth">📏 Growth Monitoring</button>
+   <button class="nav-btn" data-page="referral">🚑 Referral</button>
+   <button class="nav-btn" data-page="education">📚 Health Education</button>
+   <div class="nav-title">MANAGEMENT</div>
+   <button class="nav-btn" data-page="followup">📅 Follow-up Center</button>
+   <button class="nav-btn" data-page="hmis">📈 HMIS & Reports</button>
+   <button class="nav-btn" data-page="staff">👨‍⚕️ Staff Management</button>
+   <button class="nav-btn" data-page="backup">💾 Backup & Data</button>
+  </aside>
+  <main class="main">
+   <div id="pageContent"></div>
+   <div class="footer">DIGITAL HEALTH LEGESSE · Demo Version · Not for real patient data</div>
+  </main>
+ </div>
 </div>
 
 <script>
-"use strict";
-
-const KEY="DHL_DATABASE_V1";
-
-const modules=[
-{id:"opd",name:"OPD & Emergency",icon:"🏥",fields:[
-["date","Visit Date","date"],
-["patientId","Patient ID","text"],
-["complaint","Chief Complaint","text"],
-["assessment","Assessment","text"],
-["action","Treatment / Plan","text"],
-["followupDate","Follow-up Date","date"]
-]},
-{id:"laboratory",name:"Laboratory",icon:"🧪",fields:[
-["date","Request Date","date"],
-["patientId","Patient ID","text"],
-["test","Test Name","text"],
-["specimen","Specimen","text"],
-["result","Result","text"],
-["resultDate","Result Date","date"],
-["requestedBy","Requested By","text"]
-]},
-{id:"pharmacy",name:"Pharmacy & Inventory",icon:"💊",fields:[
-["date","Date","date"],
-["patientId","Patient ID","text"],
-["medicine","Medicine Name","text"],
-["strength","Strength","text"],
-["quantity","Quantity","number"],
-["batch","Batch Number","text"],
-["expiry","Expiry Date","date"]
-]},
-{id:"anc",name:"ANC",icon:"🤰",fields:[
-["date","Visit Date","date"],
-["patientId","Mother ID","text"],
-["visit","ANC 1 / 4 / 8 / Other","text"],
-["gestation","Gestational Age","text"],
-["findings","Findings","text"],
-["plan","Care Plan","text"],
-["followupDate","Next Visit","date"]
-]},
-{id:"delivery",name:"Delivery",icon:"👶",fields:[
-["date","Delivery Date","date"],
-["patientId","Mother ID","text"],
-["type","Delivery Type","text"],
-["outcome","Outcome","text"],
-["weight","Birth Weight kg","number"],
-["notes","Complications / Notes","text"],
-["followupDate","Follow-up Date","date"]
-]},
-{id:"pnc",name:"PNC & Postpartum",icon:"🍼",fields:[
-["date","Visit Date","date"],
-["patientId","Mother / Baby ID","text"],
-["type","Visit Type","text"],
-["findings","Findings","text"],
-["care","Care Provided","text"],
-["followupDate","Next Visit","date"]
-]},
-{id:"immunization",name:"Immunization / EPI",icon:"💉",fields:[
-["date","Administration Date","date"],
-["patientId","Child / Client ID","text"],
-["vaccine","Vaccine","text"],
-["dose","Dose Number","text"],
-["dueDate","Due Date","date"],
-["nextDate","Next Appointment","date"],
-["batch","Batch Number","text"],
-["expiry","Expiry Date","date"],
-["aefi","AEFI / Notes","text"]
-]},
-{id:"familyplanning",name:"Family Planning",icon:"🌱",fields:[
-["date","Service Date","date"],
-["patientId","Client ID","text"],
-["method","Method","text"],
-["clientType","New / Continuing","text"],
-["action","Action / Method Change","text"],
-["nextDate","Next Appointment","date"]
-]},
-{id:"nutrition",name:"Nutrition & OTP",icon:"🥗",fields:[
-["date","Visit Date","date"],
-["patientId","Patient ID","text"],
-["age","Age","text"],
-["weight","Weight kg","number"],
-["muac","MUAC cm","number"],
-["status","New / On Hand / Cured / Default / Died","text"],
-["followupDate","Follow-up Date","date"]
-]},
-{id:"tb",name:"TB Services",icon:"🫁",fields:[
-["date","Date","date"],
-["patientId","Patient ID","text"],
-["caseType","Index / New TB / TPT","text"],
-["treatment","Treatment","text"],
-["status","Treatment Status","text"],
-["followupDate","Follow-up Date","date"]
-]},
-{id:"surveillance",name:"Disease Surveillance",icon:"🦠",fields:[
-["date","Report Date","date"],
-["patientId","Patient ID","text"],
-["condition","Condition","text"],
-["test","Test / Investigation","text"],
-["result","Result","text"],
-["action","Action / Referral","text"],
-["followupDate","Follow-up Date","date"]
-]},
-{id:"hygiene",name:"Hygiene & Sanitation",icon:"🚰",fields:[
-["date","Assessment Date","date"],
-["household","Household ID","text"],
-["kebele","Kebele","text"],
-["model","Model Household","text"],
-["latrine","Improved Latrine","text"],
-["notes","Notes","text"]
-]},
-{id:"growth",name:"Growth Monitoring",icon:"📏",fields:[
-["date","Measurement Date","date"],
-["patientId","Child ID","text"],
-["age","Age","text"],
-["weight","Weight kg","number"],
-["height","Height cm","number"],
-["muac","MUAC cm","number"],
-["followupDate","Next Visit","date"]
-]},
-{id:"referral",name:"Referral Management",icon:"🚑",fields:[
-["date","Referral Date","date"],
-["patientId","Patient ID","text"],
-["reason","Reason","text"],
-["destination","Destination","text"],
-["urgency","Urgency","text"],
-["feedback","Feedback","text"],
-["followupDate","Follow-up Date","date"]
-]},
-{id:"education",name:"Health Education",icon:"📢",fields:[
-["date","Session Date","date"],
-["topic","Topic","text"],
-["location","Location","text"],
-["audience","Audience","text"],
-["participants","Participants","number"],
-["facilitator","Facilitator","text"]
-]}
-];
-
-function emptyDB(){
-return {patients:[],records:{},staff:[]};
-}
-
-function loadDB(){
-try{
-return JSON.parse(localStorage.getItem(KEY))||emptyDB();
-}catch(e){return emptyDB();}
-}
-
+const DBKEY="DHL_DEMO_DATABASE_V2";
+const emptyDB={
+ patients:[],opd:[],laboratory:[],pharmacy:[],anc:[],delivery:[],pnc:[],
+ immunization:[],family:[],nutrition:[],tb:[],surveillance:[],hygiene:[],
+ growth:[],referral:[],education:[],followup:[],staff:[]
+};
 let db=loadDB();
 let currentPage="dashboard";
 
-function saveDB(){
-localStorage.setItem(KEY,JSON.stringify(db));
+function loadDB(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(DBKEY)||"{}");
+  return {...structuredClone(emptyDB),...saved};
+ }catch(e){return structuredClone(emptyDB)}
 }
+function saveDB(){
+ localStorage.setItem(DBKEY,JSON.stringify(db));
+}
+function login(){
+ const u=document.getElementById("username").value.trim();
+ const p=document.getElementById("password").value;
+ if(u==="admin"&&p==="DHL2026"){
+  sessionStorage.setItem("dhl_demo_login","yes");
+  showApp();
+ }else document.getElementById("loginError").textContent="Username ወይም Password ትክክል አይደለም።";
+}
+function logout(){
+ sessionStorage.removeItem("dhl_demo_login");
+ document.getElementById("appScreen").classList.add("hidden");
+ document.getElementById("loginScreen").classList.remove("hidden");
+}
+function showApp(){
+ document.getElementById("loginScreen").classList.add("hidden");
+ document.getElementById("appScreen").classList.remove("hidden");
+ renderPage("dashboard");
+}
+if(sessionStorage.getItem("dhl_demo_login")==="yes")showApp();
+
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+ btn.addEventListener("click",()=>renderPage(btn.dataset.page));
+});
+
+const titles={
+ dashboard:"Dashboard",patients:"Patient Management",opd:"OPD / Emergency",
+ laboratory:"Laboratory",pharmacy:"Pharmacy",anc:"Antenatal Care (ANC)",
+ delivery:"Delivery Services",pnc:"Postnatal Care (PNC)",
+ immunization:"Immunization / EPI",family:"Family Planning",
+ nutrition:"Nutrition / OTP",tb:"TB Services",surveillance:"Disease Surveillance",
+ hygiene:"Hygiene & Sanitation",growth:"Growth Monitoring",referral:"Referral Management",
+ education:"Health Education",followup:"Follow-up Center",hmis:"HMIS & Reports",
+ staff:"Staff Management",backup:"Backup & Data"
+};
+const configs={
+ patients:{fields:[
+  ["patientId","Patient ID / የታካሚ ቁጥር","text",true],
+  ["fullName","Full Name / ሙሉ ስም","text",true],
+  ["sex","Sex / ጾታ","select",true,["Male","Female"]],
+  ["dob","Date of Birth / የትውልድ ቀን","date"],
+  ["phone","Phone / ስልክ","tel"],
+  ["kebele","Kebele / ቀበሌ","text"],
+  ["address","Address / አድራሻ","text"],
+  ["registrationDate","Registration Date / የምዝገባ ቀን","date",true]
+ ]},
+ opd:{fields:[
+  ["patientId","Patient ID","text",true],
+  ["visitDate","Visit Date","date",true],
+  ["complaint","Chief Complaint / ዋና ቅሬታ","text",true],
+  ["vitals","Vital Signs (BP, Temp, Pulse, RR)","text"],
+  ["assessment","Clinical Assessment / ግምገማ","textarea"],
+  ["plan","Plan / የሕክምና ዕቅድ","textarea"],
+  ["followDate","Follow-up Date","date"]
+ ]},
+ laboratory:{fields:[
+  ["patientId","Patient ID","text",true],
+  ["test","Laboratory Test / ምርመራ","select",true,["CBC","Hemoglobin (Hgb)","Malaria RDT","Malaria Microscopy","TB / AFB","GeneXpert (record result)","HIV (authorized workflow only)","Urinalysis","Stool Examination","Blood Group","Pregnancy Test","Widal","Weil-Felix","Blood Glucose","Other"]],
+  ["sampleDate","Sample Date","date",true],
+  ["result","Result / ውጤት","textarea",true],
+  ["requestedBy","Requested By","text"],
+  ["reviewStatus","Review Status","select",false,["Pending","Reviewed","Released"]]
+ ]},
+ pharmacy:{fields:[
+  ["drug","Drug Name / የመድኃኒት ስም","text",true],
+  ["strength","Strength / መጠን","text"],
+  ["form","Dosage Form","select",false,["Tablet","Capsule","Syrup","Injection","Cream","Other"]],
+  ["batch","Batch Number","text"],
+  ["quantity","Quantity / ብዛት","number",true],
+  ["unit","Unit","select",false,["Tablet","Bottle","Vial","Pack","Piece"]],
+  ["expiry","Expiry Date","date",true],
+  ["stockDate","Date Received","date"]
+ ]},
+ anc:{fields:[
+  ["patientId","Mother Patient ID","text",true],
+  ["visitType","ANC Visit","select",true,["ANC 1","ANC 2","ANC 3","ANC 4","ANC 5","ANC 6","ANC 7","ANC 8"]],
+  ["visitDate","Visit Date","date",true],
+  ["gestationalAge","Gestational Age (weeks)","number"],
+  ["bloodPressure","Blood Pressure","text"],
+  ["weight","Weight (kg)","number"],
+  ["risk","Risk / Findings","textarea"],
+  ["plan","Care Plan / Advice","textarea"],
+  ["followDate","Next Follow-up Date","date"]
+ ]},
+ delivery:{fields:[
+  ["patientId","Mother Patient ID","text",true],
+  ["deliveryDate","Delivery Date & Time","datetime-local",true],
+  ["deliveryType","Mode of Delivery","select",true,["Spontaneous vaginal","Assisted vaginal","Caesarean section","Other"]],
+  ["birthOutcome","Birth Outcome","select",true,["Live birth","Stillbirth","Other"]],
+  ["newbornSex","Newborn Sex","select",false,["Male","Female","Unknown"]],
+  ["birthWeight","Birth Weight (kg)","number"],
+  ["complication","Complications / Notes","textarea"],
+  ["followDate","PNC Follow-up Date","date"]
+ ]},
+ pnc:{fields:[
+  ["patientId","Mother Patient ID","text",true],
+  ["visitType","PNC Visit","select",true,["Immediate Postpartum","PNC 1","PNC 2","PNC 3","Other"]],
+  ["visitDate","Visit Date","date",true],
+  ["motherStatus","Mother Assessment","textarea"],
+  ["newbornStatus","Newborn Assessment","textarea"],
+  ["dangerSigns","Danger Signs / Referral","textarea"],
+  ["followDate","Next Follow-up Date","date"]
+ ]},
+ immunization:{fields:[
+  ["patientId","Child / Mother Patient ID","text",true],
+  ["targetGroup","Target Group","select",true,["Infant","Child","Adolescent","Pregnant Woman","Woman of Reproductive Age","Campaign / Outreach"]],
+  ["vaccine","Vaccine / ክትባት","select",true,["BCG","OPV-0","HepB Birth Dose","OPV-1","Penta-1","PCV-1","Rota-1","OPV-2","Penta-2","PCV-2","Rota-2","OPV-3","Penta-3","PCV-3","Rota-3","IPV-1","IPV-2","MR-1","MR-2","Td / TT","HPV","Other / As per current EPI guideline"]],
+  ["dose","Dose Number","select",true,["Birth dose","1","2","3","4","Booster","Campaign dose","Other"]],
+  ["givenDate","Date Given","date",true],
+  ["nextDate","Next Appointment","date"],
+  ["batch","Vaccine Batch / Lot","text"],
+  ["expiry","Expiry Date","date"],
+  ["site","Administration Site","text"],
+  ["aefi","AEFI / Reaction (if any)","textarea"],
+  ["provider","Vaccinator / Staff","text"]
+ ]},
+ family:{fields:[
+  ["patientId","Client Patient ID","text",true],
+  ["method","Family Planning Method / ዘዴ","select",true,["Depo-Provera","Implanon","Jadelle","IUCD","Condom","Pills (COC)","Pills (POP)","Emergency Contraception","Natural Method","LAM","Other"]],
+  ["serviceType","Service Type","select",true,["New User","Continuing User","Method Change","Removal","Counselling","Discontinued"]],
+  ["serviceDate","Service Date","date",true],
+  ["quantity","Quantity / Units (if applicable)","number"],
+  ["reason","Counselling / Notes","textarea"],
+  ["nextDate","Next Follow-up / Reinjection Date","date"],
+  ["provider","Provider","text"]
+ ]},
+ nutrition:{fields:[
+  ["patientId","Patient ID","text",true],
+  ["serviceType","OTP Status","select",true,["New","On Hand","Cured","Default","Died","Transferred","Non-response"]],
+  ["ageMonths","Age (months)","number"],
+  ["weight","Weight (kg)","number"],
+  ["muac","MUAC (cm)","number"],
+  ["oedema","Bilateral Oedema","select",false,["Absent","Present","Not assessed"]],
+  ["visitDate","Visit Date","date",true],
+  ["followDate","Next Follow-up Date","date"],
+  ["notes","Notes","textarea"]
+ ]},
+ tb:{fields:[
+  ["patientId","Patient ID","text",true],
+  ["caseType","TB Service","select",true,["Presumptive TB","New TB Case","Previously Treated","Index Case","TPT","Treatment Follow-up"]],
+  ["test","Test / Investigation","select",false,["Sputum Microscopy","GeneXpert","Chest X-ray","Clinical Assessment","Other"]],
+  ["result","Result / Clinical Record","textarea"],
+  ["treatmentStart","Treatment Start Date","date"],
+  ["visitDate","Visit Date","date"],
+  ["outcome","Outcome / Status","select",false,["On Treatment","Cured","Treatment Completed","Died","Lost to Follow-up","Transferred","Not Evaluated"]],
+  ["followDate","Next Follow-up","date"]
+ ]},
+ surveillance:{fields:[
+  ["patientId","Patient ID (if applicable)","text"],
+  ["disease","Condition / Event","select",true,["Malaria","Acute Watery Diarrhea","Measles","AFP","Meningitis","Dengue / Other Arbovirus","Cholera","TB","HIV (restricted access)","Other"]],
+  ["eventDate","Date of Event","date",true],
+  ["count","Number of Cases","number",true],
+  ["area","Location / Kebele","text"],
+  ["status","Reporting Status","select",false,["Suspected","Under Investigation","Confirmed by authorized process","Discarded","Reported"]],
+  ["notes","Notes","textarea"]
+ ]},
+ hygiene:{fields:[
+  ["kebele","Kebele / Village","text",true],
+  ["households","Households Visited","number"],
+  ["modelHouseholds","Model Households","number"],
+  ["latrines","Improved Latrines","number"],
+  ["handwashing","Handwashing Facilities","number"],
+  ["visitDate","Visit Date","date",true],
+  ["notes","Notes","textarea"]
+ ]},
+ growth:{fields:[
+  ["patientId","Child Patient ID","text",true],
+  ["measureDate","Measurement Date","date",true],
+  ["ageMonths","Age (months)","number"],
+  ["weight","Weight (kg)","number"],
+  ["height","Length / Height (cm)","number"],
+  ["muac","MUAC (cm)","number"],
+  ["notes","Assessment Notes","textarea"],
+  ["followDate","Next Follow-up","date"]
+ ]},
+ referral:{fields:[
+  ["patientId","Patient ID","text",true],
+  ["referralDate","Referral Date","date",true],
+  ["destination","Referred To Facility","text",true],
+  ["reason","Reason for Referral","textarea",true],
+  ["urgency","Urgency","select",true,["Emergency","Urgent","Routine"]],
+  ["feedback","Referral Feedback / Outcome","textarea"],
+  ["followDate","Follow-up Date","date"]
+ ]},
+ education:{fields:[
+  ["topic","Education Topic","select",true,["Hygiene","Nutrition","Immunization","Family Planning","TB Prevention","Malaria Prevention","Maternal Health","HIV Prevention","Other"]],
+  ["audience","Target Audience","text"],
+  ["date","Date","date",true],
+  ["participants","Number of Participants","number"],
+  ["location","Location","text"],
+  ["notes","Key Messages / Notes","textarea"]
+ ]},
+ staff:{fields:[
+  ["staffName","Staff Full Name","text",true],
+  ["role","Professional Role","select",true,["Health Officer","Nurse","Midwife","Laboratory Professional","Pharmacy Professional","Health Extension Worker","Data Clerk","Administrator","Other"]],
+  ["phone","Phone","tel"],
+  ["workplace","Work Unit","text"],
+  ["status","Status","select",false,["Active","On Leave","Inactive"]]
+ ]}
+};
 
 function esc(v){
-return String(v??"").replace(/[&<>"']/g,c=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
+ return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
-
-function allRecords(){
-return Object.entries(db.records).flatMap(([module,items])=>
-items.map(x=>({...x,module}))
-);
+function fieldHTML(f){
+ const [id,label,type,required,options]=f;
+ let control="";
+ if(type==="select"){
+  control=`<select id="f_${id}" ${required?"required":""}><option value="">-- Select / ይምረጡ --</option>${(options||[]).map(o=>`<option>${esc(o)}</option>`).join("")}</select>`;
+ }else if(type==="textarea"){
+  control=`<textarea id="f_${id}" ${required?"required":""}></textarea>`;
+ }else{
+  control=`<input id="f_${id}" type="${type}" ${required?"required":""} ${type==="number"?'min="0" step="any"':""}>`;
+ }
+ return `<div class="field"><label for="f_${id}">${esc(label)}${required?' *':''}</label>${control}</div>`;
 }
-
-function getModule(id){
-return modules.find(m=>m.id===id);
+function renderPage(page){
+ currentPage=page;
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ const root=document.getElementById("pageContent");
+ if(page==="dashboard"){root.innerHTML=dashboardHTML();return}
+ if(page==="followup"){root.innerHTML=followupHTML();return}
+ if(page==="hmis"){root.innerHTML=hmisHTML();return}
+ if(page==="backup"){root.innerHTML=backupHTML();return}
+ const config=configs[page];
+ if(!config){root.innerHTML="<div class='panel'>Page not found</div>";return}
+ root.innerHTML=`
+ <div class="page-head"><div><h1>${titles[page]}</h1><div class="subtitle">Record service information / የአገልግሎት መረጃ ያስገቡ</div></div><span class="badge">${(db[page]||[]).length} Records</span></div>
+ <div class="notice">የሙከራ መረጃ ብቻ ያስገቡ። የክሊኒካዊ ውሳኔዎች በባለሙያ መመሪያ መሠረት ይወሰናሉ።</div>
+ <section class="panel"><h3>➕ Add New Record / አዲስ መረጃ ያስገቡ</h3>
+ <form id="recordForm"><div class="form-grid">${config.fields.map(fieldHTML).join("")}</div>
+ <div class="actions"><button class="btn green" type="submit">Save Record / መዝግብ</button><button class="btn secondary" type="reset">Clear / አጽዳ</button></div></form></section>
+ <section class="panel"><div class="page-head"><h3>Saved Records / የተመዘገቡ መረጃዎች</h3><input class="search" id="tableSearch" placeholder="Search records..." oninput="filterTable()"></div>
+ <div class="table-wrap" id="tableArea">${tableHTML(page)}</div></section>`;
+ document.getElementById("recordForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const item={_id:Date.now(),_created:new Date().toISOString()};
+  config.fields.forEach(f=>item[f[0]]=document.getElementById("f_"+f[0]).value);
+  db[page].unshift(item);
+  if(item.followDate||item.nextDate){
+   db.followup.unshift({
+    _id:Date.now()+1,patientId:item.patientId||"",service:titles[page],
+    dueDate:item.followDate||item.nextDate,status:"Pending",
+    details:item.visitType||item.method||item.serviceType||""
+   });
+  }
+  saveDB();renderPage(page);
+  alert("መረጃው ተመዝግቧል።");
+ });
 }
-
-function patientName(id){
-return db.patients.find(p=>p.id===id)?.name||id||"—";
+function tableHTML(page){
+ const rows=db[page]||[];
+ if(!rows.length)return "<div class='empty'>No records yet / ገና መረጃ አልተመዘገበም</div>";
+ const keys=configs[page].fields;
+ return `<table><thead><tr>${keys.slice(0,5).map(f=>`<th>${esc(f[1])}</th>`).join("")}<th>Action</th></tr></thead><tbody>${rows.map(r=>`<tr>${keys.slice(0,5).map(f=>`<td>${esc(r[f[0]])}</td>`).join("")}<td><button class="btn red small" onclick="deleteRecord('${page}',${r._id})">Delete</button></td></tr>`).join("")}</tbody></table>`;
 }
-
-function openPage(page){
-currentPage=page;
-document.querySelectorAll(".nav-btn").forEach(b=>{
-b.classList.remove("active");
-});
-render();
+function deleteRecord(page,id){
+ if(!confirm("ይህን የሙከራ መረጃ ማጥፋት ይፈልጋሉ?"))return;
+ db[page]=db[page].filter(x=>x._id!==id);saveDB();renderPage(page);
 }
-
-function makeNavigation(){
-document.getElementById("serviceNav").innerHTML=
-modules.map(m=>`
-<button class="nav-btn" onclick="openPage('${m.id}')">
-${m.icon} ${esc(m.name)}
-</button>`).join("");
+function filterTable(){
+ const q=(document.getElementById("tableSearch")?.value||"").toLowerCase();
+ document.querySelectorAll("#tableArea tbody tr").forEach(tr=>tr.style.display=tr.innerText.toLowerCase().includes(q)?"":"none");
 }
-
-function render(){
-const main=document.getElementById("main");
-
-if(currentPage==="dashboard"){
-main.innerHTML=dashboardPage();
-return;
+function dashboardHTML(){
+ const cards=[
+ ["patients","👥","Registered Patients"],["opd","🩺","OPD Visits"],
+ ["laboratory","🔬","Lab Records"],["pharmacy","💊","Drug Records"],
+ ["anc","🤰","ANC Visits"],["delivery","👶","Deliveries"],
+ ["pnc","🩷","PNC Visits"],["immunization","💉","Immunization Records"],
+ ["family","👨‍👩‍👧","Family Planning"],["nutrition","🥗","Nutrition / OTP"],
+ ["tb","🫁","TB Records"],["referral","🚑","Referrals"]
+ ];
+ return `<div class="page-head"><div><h1>Dashboard / ዋና ገጽ</h1><div class="subtitle">Health Facility Overview</div></div><span class="badge">Demo System</span></div>
+ <div class="notice">⚠️ Demo only: መረጃዎች በዚህ Browser ውስጥ ብቻ ይቀመጣሉ። ወደ ሌላ ስልክ አይሄዱም።</div>
+ <div class="grid">${cards.slice(0,8).map(c=>`<div class="stat"><div class="label">${c[1]} ${c[2]}</div><div class="number">${db[c[0]].length}</div></div>`).join("")}</div>
+ <section class="panel"><h3>Quick Access / ፈጣን መግቢያ</h3><div class="quick-grid">${cards.map(c=>`<button class="quick" onclick="renderPage('${c[0]}')"><b>${c[1]} ${c[2]}</b><small>Open module →</small></button>`).join("")}</div></section>
+ <section class="panel"><h3>Other Services</h3><div class="quick-grid">${["surveillance","hygiene","growth","education","followup","hmis","staff","backup"].map(p=>`<button class="quick" onclick="renderPage('${p}')"><b>${titles[p]}</b><small>Open module →</small></button>`).join("")}</div></section>`;
 }
-if(currentPage==="patients"){
-main.innerHTML=patientsPage();
-return;
+function followupHTML(){
+ const list=db.followup||[];
+ return `<div class="page-head"><div><h1>Follow-up Center / የቀጣይ ቀጠሮ ማዕከል</h1><div class="subtitle">Appointments recorded by service modules</div></div></div>
+ <section class="panel"><div class="table-wrap">${list.length?`<table><thead><tr><th>Patient ID</th><th>Service</th><th>Due Date</th><th>Details</th><th>Status</th><th>Action</th></tr></thead><tbody>${list.map(x=>`<tr><td>${esc(x.patientId)}</td><td>${esc(x.service)}</td><td>${esc(x.dueDate)}</td><td>${esc(x.details)}</td><td>${esc(x.status)}</td><td><button class="btn small" onclick="completeFollowup(${x._id})">Complete</button> <button class="btn red small" onclick="deleteFollowup(${x._id})">Delete</button></td></tr>`).join("")}</tbody></table>`:"<div class='empty'>No follow-up appointments recorded.</div>"}</div></section>`;
 }
-if(currentPage==="followups"){
-main.innerHTML=followupPage();
-return;
+function completeFollowup(id){const x=db.followup.find(a=>a._id===id);if(x)x.status="Completed";saveDB();renderPage("followup")}
+function deleteFollowup(id){db.followup=db.followup.filter(x=>x._id!==id);saveDB();renderPage("followup")}
+function hmisHTML(){
+ const names=["patients","opd","laboratory","pharmacy","anc","delivery","pnc","immunization","family","nutrition","tb","surveillance","hygiene","growth","referral","education","staff"];
+ return `<div class="page-head"><div><h1>HMIS & Reports</h1><div class="subtitle">Service record counts / የአገልግሎት ማጠቃለያ</div></div><button class="btn" onclick="downloadCSV()">Export CSV</button></div>
+ <section class="panel"><div class="table-wrap"><table><thead><tr><th>Service</th><th>Total Records</th></tr></thead><tbody>${names.map(p=>`<tr><td>${titles[p]||p}</td><td>${db[p].length}</td></tr>`).join("")}</tbody></table></div></section>
+ <div class="notice">ይህ የመዝገብ ብዛት ማጠቃለያ ብቻ ነው። ከኦፊሴላዊ HMIS ቅጾች ጋር የተረጋገጠ ሪፖርት አይደለም።</div>`;
 }
-if(currentPage==="reports"){
-main.innerHTML=reportsPage();
-return;
+function backupHTML(){
+ return `<div class="page-head"><div><h1>Backup & Data</h1><div class="subtitle">Export or restore demo records</div></div></div>
+ <section class="panel"><h3>Data Backup / መረጃ ማስቀመጥ</h3><p>የሙከራ መረጃዎችን JSON ፋይል አድርገህ አውርድ።</p>
+ <div class="actions"><button class="btn" onclick="downloadBackup()">Download JSON Backup</button><button class="btn secondary" onclick="document.getElementById('restoreFile').click()">Restore JSON Backup</button><input id="restoreFile" type="file" accept=".json,application/json" class="hidden" onchange="restoreBackup(event)"></div></section>
+ <section class="panel"><h3>Danger Zone</h3><p>የሙከራ መረጃዎችን በሙሉ ለማጥፋት።</p><button class="btn red" onclick="clearAll()">Clear All Demo Data</button></section>`;
 }
-if(currentPage==="staff"){
-main.innerHTML=staffPage();
-return;
+function downloadBackup(){
+ const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+ downloadBlob(blob,"DHL-demo-backup.json");
 }
-if(currentPage==="settings"){
-main.innerHTML=settingsPage();
-return;
+function restoreBackup(e){
+ const file=e.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const parsed=JSON.parse(reader.result);
+   if(!parsed||typeof parsed!=="object")throw Error();
+   db={...structuredClone(emptyDB),...parsed};saveDB();alert("Backup restored.");renderPage("backup");
+  }catch(err){alert("Invalid backup file.");}
+ };
+ reader.readAsText(file);
 }
-
-const m=getModule(currentPage);
-if(m)main.innerHTML=modulePage(m);
+function clearAll(){
+ if(!confirm("የሙከራ መረጃዎችን በሙሉ ማጥፋት ይፈልጋሉ?"))return;
+ db=structuredClone(emptyDB);saveDB();renderPage("backup");
 }
-
-function dashboardPage(){
-const records=allRecords();
-const due=records.filter(r=>{
-const d=r.followupDate||r.nextDate;
-return d&&d<=new Date().toISOString().slice(0,10);
-}).length;
-
-return `
-<div class="page-head">
-<div><h2>Facility Dashboard</h2>
-<p class="muted">Health facility overview</p></div>
-</div>
-
-<div class="grid">
-<div class="card">Registered Patients
-<div class="stat-number">${db.patients.length}</div>
-</div>
-<div class="card">Service Records
-<div class="stat-number">${records.length}</div>
-</div>
-<div class="card">Follow-ups Due
-<div class="stat-number">${due}</div>
-</div>
-<div class="card">Staff Members
-<div class="stat-number">${db.staff.length}</div>
-</div>
-</div>
-
-<section class="panel">
-<h3>Quick Actions</h3>
-<button class="btn" onclick="openPage('patients')">＋ Register Patient</button>
-<button class="btn secondary" onclick="openPage('followups')">Follow-ups</button>
-</section>
-
-<section class="panel">
-<h3>Health Service Modules</h3>
-<div class="module-grid">
-${modules.map(m=>`
-<button class="module" onclick="openPage('${m.id}')">
-<div style="font-size:25px">${m.icon}</div>
-<h3>${esc(m.name)}</h3>
-<p>Open service module</p>
-</button>`).join("")}
-</div>
-</section>`;
+function downloadCSV(){
+ const rows=[];
+ Object.keys(configs).forEach(page=>{
+  (db[page]||[]).forEach(item=>{
+   rows.push({Service:titles[page],...item});
+  });
+ });
+ if(!rows.length){alert("No records to export.");return}
+ const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];
+ const csv=[keys.map(csvCell).join(","),...rows.map(r=>keys.map(k=>csvCell(r[k])).join(","))].join("\r\n");
+ downloadBlob(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}),"DHL-demo-records.csv");
 }
-
-function patientsPage(){
-return `
-<div class="page-head">
-<div><h2>Patient Management</h2>
-<p class="muted">Patient registration and records</p></div>
-<button class="btn" onclick="patientForm()">＋ New Patient</button>
-</div>
-<section class="panel">
-<div class="toolbar">
-<input id="patientSearch" placeholder="Search patient..." oninput="filterPatients()">
-</div>
-<div id="patientTable">${patientTable()}</div>
-</section>
-<div id="patientFormHost"></div>`;
-}
-
-function patientForm(){
-document.getElementById("patientFormHost").innerHTML=`
-<section class="panel">
-<h3>Patient Registration</h3>
-<form id="newPatient">
-<div class="form-grid">
-${input("id","Patient ID","text",true)}
-${input("name","Full Name","text",true)}
-${select("sex","Sex",["Female","Male","Other"])}
-${input("dob","Date of Birth","date")}
-${input("phone","Phone Number","tel")}
-${input("kebele","Kebele / Village")}
-${input("address","Address")}
-</div>
-<div class="form-actions">
-<button type="button" class="btn secondary"
-onclick="document.getElementById('patientFormHost').innerHTML=''">Cancel</button>
-<button class="btn">Save Patient</button>
-</div>
-</form>
-</section>`;
-
-document.getElementById("newPatient").onsubmit=e=>{
-e.preventDefault();
-const p=Object.fromEntries(new FormData(e.target));
-if(db.patients.some(x=>x.id===p.id)){
-alert("Patient ID already exists");
-return;
-}
-db.patients.push(p);
-saveDB();
-render();
-};
-}
-
-function patientTable(items=[...db.patients].reverse()){
-if(!items.length)return `<div class="empty">No patients registered.</div>`;
-return `<div class="table-wrap"><table>
-<thead><tr><th>ID</th><th>Name</th><th>Sex</th><th>Date of Birth</th><th>Phone</th></tr></thead>
-<tbody>${items.map(p=>`
-<tr><td>${esc(p.id)}</td><td>${esc(p.name)}</td>
-<td>${esc(p.sex)}</td><td>${esc(p.dob)}</td><td>${esc(p.phone)}</td></tr>
-`).join("")}</tbody></table></div>`;
-}
-
-function filterPatients(){
-const q=document.getElementById("patientSearch").value.toLowerCase();
-const found=db.patients.filter(p=>
-[p.id,p.name,p.phone].join(" ").toLowerCase().includes(q)
-).reverse();
-document.getElementById("patientTable").innerHTML=patientTable(found);
-}
-
-function input(id,label,type="text",required=false){
-return `<div class="field"><label>${label}</label>
-<input name="${id}" type="${type}" ${required?"required":""}></div>`;
-}
-
-function select(id,label,options){
-return `<div class="field"><label>${label}</label>
-<select name="${id}">${options.map(x=>`<option>${esc(x)}</option>`).join("")}</select></div>`;
-}
-
-function modulePage(m){
-const items=db.records[m.id]||[];
-return `
-<div class="page-head">
-<div><h2>${m.icon} ${esc(m.name)}</h2>
-<p class="muted">Service records and management</p></div>
-<button class="btn" onclick="recordForm('${m.id}')">＋ Add Record</button>
-</div>
-<section class="panel">
-<div class="toolbar">
-<input placeholder="Search records..." oninput="searchRecords('${m.id}',this.value)">
-</div>
-<div id="recordTable">${recordTable(m,items)}</div>
-</section>
-<div id="recordFormHost"></div>
-${m.id==="immunization"?`
-<section class="panel">
-<h3>Immunization Schedule Notice</h3>
-<p class="muted">Use the current approved Ethiopian national EPI schedule. Record actual administered doses only. The final system must include version-controlled vaccine schedules and catch-up rules.</p>
-</section>`:""}
-`;
-}
-
-function recordForm(id){
-const m=getModule(id);
-document.getElementById("recordFormHost").innerHTML=`
-<section class="panel">
-<h3>Add ${esc(m.name)} Record</h3>
-<form id="newRecord">
-<div class="form-grid">
-${m.fields.map(f=>input(f[0],f[1],f[2],f[0]==="patientId")).join("")}
-<div class="field" style="grid-column:1/-1">
-<label>Additional Notes</label>
-<textarea name="notes"></textarea>
-</div>
-</div>
-<div class="form-actions">
-<button type="button" class="btn secondary"
-onclick="document.getElementById('recordFormHost').innerHTML=''">Cancel</button>
-<button class="btn">Save Record</button>
-</div>
-</form>
-</section>`;
-
-document.getElementById("newRecord").onsubmit=e=>{
-e.preventDefault();
-const r=Object.fromEntries(new FormData(e.target));
-r.id="R"+Date.now();
-(db.records[id]??=[]).push(r);
-saveDB();
-render();
-};
-}
-
-function recordTable(m,items){
-if(!items.length)return `<div class="empty">No records found.</div>`;
-const fields=m.fields.slice(0,5);
-return `<div class="table-wrap"><table>
-<thead><tr>${fields.map(f=>`<th>${esc(f[1])}</th>`).join("")}</tr></thead>
-<tbody>${[...items].reverse().map(r=>`
-<tr>${fields.map(f=>`<td>${esc(f[0]==="patientId"?patientName(r[f[0]]):r[f[0]])}</td>`).join("")}</tr>
-`).join("")}</tbody></table></div>`;
-}
-
-function searchRecords(id,q){
-const m=getModule(id);
-const found=(db.records[id]||[]).filter(r=>
-Object.values(r).join(" ").toLowerCase().includes(q.toLowerCase())
-);
-document.getElementById("recordTable").innerHTML=recordTable(m,found);
-}
-
-function followupPage(){
-const records=allRecords().filter(r=>r.followupDate||r.nextDate);
-return `
-<div class="page-head"><div><h2>Follow-up Center</h2>
-<p class="muted">Upcoming and overdue appointments</p></div></div>
-<section class="panel">
-${records.length?`<div class="table-wrap"><table>
-<thead><tr><th>Date</th><th>Patient</th><th>Service</th><th>Details</th></tr></thead>
-<tbody>${records.map(r=>`
-<tr>
-<td>${esc(r.followupDate||r.nextDate)}</td>
-<td>${esc(patientName(r.patientId))}</td>
-<td>${esc(getModule(r.module)?.name)}</td>
-<td>${esc(r.vaccine||r.method||r.visit||r.condition||"Follow-up")}</td>
-</tr>`).join("")}</tbody></table></div>`:
-`<div class="empty">No follow-up dates entered.</div>`}
-</section>`;
-}
-
-function reportsPage(){
-return `
-<div class="page-head"><div><h2>HMIS & Reports</h2>
-<p class="muted">Basic service activity summary</p></div></div>
-<section class="panel">
-<div class="table-wrap"><table>
-<thead><tr><th>Service</th><th>Records</th></tr></thead>
-<tbody>${modules.map(m=>`
-<tr><td>${esc(m.name)}</td><td>${(db.records[m.id]||[]).length}</td></tr>
-`).join("")}</tbody></table></div>
-<p class="muted">These are simple record counts, not official validated HMIS indicators.</p>
-</section>
-<section class="panel">
-<button class="btn" onclick="backup()">Download JSON Backup</button>
-<button class="btn secondary" onclick="exportPatients()">Export Patients CSV</button>
-</section>`;
-}
-
-function staffPage(){
-return `
-<div class="page-head"><div><h2>Staff Management</h2>
-<p class="muted">Facility staff directory</p></div>
-<button class="btn" onclick="addStaff()">＋ Add Staff</button></div>
-<section class="panel"><div id="staffList">
-${db.staff.length?db.staff.map(s=>`<p>${esc(s.name)} — ${esc(s.role)}</p>`).join(""):`<div class="empty">No staff added.</div>`}
-</div></section>
-<div id="staffFormHost"></div>`;
-}
-
-function addStaff(){
-document.getElementById("staffFormHost").innerHTML=`
-<section class="panel"><h3>New Staff Member</h3>
-<form id="staffForm">
-<div class="form-grid">
-${input("name","Full Name","text",true)}
-${select("role","Role",["Health Officer","Laboratory","Pharmacy","Nurse / Midwife","Data Clerk","Administrator"])}
-${input("phone","Phone","tel")}
-</div><button class="btn">Save Staff</button></form></section>`;
-document.getElementById("staffForm").onsubmit=e=>{
-e.preventDefault();
-const s=Object.fromEntries(new FormData(e.target));
-db.staff.push(s);saveDB();render();
-};
-}
-
-function settingsPage(){
-return `
-<div class="page-head"><div><h2>Settings & Backup</h2>
-<p class="muted">Local demonstration data management</p></div></div>
-<section class="panel">
-<h3>Backup</h3>
-<button class="btn" onclick="backup()">Download Full Backup</button>
-<p class="muted">Keep backup files secure. They may contain sensitive health information.</p>
-</section>
-<section class="panel">
-<h3>System limitations</h3>
-<ul class="muted">
-<li>Data is stored only in this browser.</li>
-<li>Demo login is not secure authentication.</li>
-<li>No server database or multi-device synchronization.</li>
-<li>Real clinical use requires secure backend, permissions, encryption and audit logs.</li>
-</ul>
-</section>`;
-}
-
-function backup(){
-const a=document.createElement("a");
-a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));
-a.download="DHL-backup.json";
-a.click();
-}
-
-function exportPatients(){
-if(!db.patients.length){alert("No patient data");return}
-const keys=Object.keys(db.patients[0]);
-const csv=[keys.join(","),...db.patients.map(p=>
-keys.map(k=>'"'+String(p[k]||"").replace(/"/g,'""')+'"').join(",")
-)].join("\n");
-const a=document.createElement("a");
-a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"}));
-a.download="patients.csv";
-a.click();
-}
-
-document.getElementById("loginForm").onsubmit=e=>{
-e.preventDefault();
-const username=document.getElementById("username").value;
-const password=document.getElementById("password").value;
-if(username!=="admin"||password!=="DHL2026"){
-alert("Demo login: admin / DHL2026");
-return;
-}
-document.getElementById("loginScreen").classList.add("hidden");
-document.getElementById("app").classList.remove("hidden");
-document.getElementById("userLabel").textContent=
-document.getElementById("role").value;
-makeNavigation();
-openPage("dashboard");
-};
-
-function logout(){
-document.getElementById("app").classList.add("hidden");
-document.getElementById("loginScreen").classList.remove("hidden");
-document.getElementById("password").value="";
+function csvCell(v){return '"'+String(v??"").replace(/"/g,'""')+'"'}
+function downloadBlob(blob,name){
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");a.href=url;a.download=name;a.click();
+ URL.revokeObjectURL(url);
 }
 </script>
 </body>
